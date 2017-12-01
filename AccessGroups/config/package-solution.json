@@ -1,0 +1,11 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Access Groups",
+    "id": "32849ade-854e-476b-80f3-800231f102e0",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/AccessGroups.sppkg"
+  }
+}
