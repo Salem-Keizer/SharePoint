@@ -1,6 +1,7 @@
 ## sp-webpart
 
 This is where you include your WebPart documentation.
+So this first virsion is a bit qwerky.  The check box to show/hide the manage button must be re-checked every time the group name is changed.  The group ID on the button dose not updae otherwise. -dcp 20171201
 
 ### Building the code
 
