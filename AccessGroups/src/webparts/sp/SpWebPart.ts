@@ -15,9 +15,11 @@ import 'jquery';
 import {SPComponentLoader} from '@microsoft/sp-loader';
 
 export interface ISpWebPartProps {
+  showWpTitle: boolean;  
   description: string;
   spList: string;
   siteURL1: string;
+  listID: string;
   showMod1: boolean;
 }
 
@@ -27,39 +29,49 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
     return true;
   }
 
+  myList = require("./ListGroups");
+
   public render(): void {
-    const myList = require("./ListGroups");
     var isHidden = this.properties.showMod1;
+    var isTitle = this.properties.showWpTitle;
     var xStyle = "visibility: hidden";
-    //var xListID = myList.id(this.properties.spList);
-    
+    var xTitleStyle = "";
+
     if(isHidden == true){
       xStyle = "";
     } else {
       xStyle = "visibility: hidden";
     }
 
+    if(isTitle == true){
+      xTitleStyle = "";
+    } else {
+      xTitleStyle = "visibility: hidden";
+    }
+
     this.domElement.innerHTML = `
     <div class="${styles.sp}">
     <!--<div class="${styles.container}">-->
 
-          <span class="ms-font-xl ms-fontColor-red" id="ErrorResults"></span>
-          <span class="ms-font-xl ms-fontColor-black">Access Group</span>
-          <p class="ms-font-l ms-fontColor-black">${escape(this.properties.description)}</p>
-          <p class="ms-font-l ms-fontColor-black">${escape(this.properties.spList)}</p>
+          <!--<span class="ms-font-xl ms-fontColor-red" id="ErrorResults"></span>-->
+          <div  style="${escape(xTitleStyle)}">
+            <span class="ms-font-xl ms-fontColor-black">Access Group</span>
+            <p class="ms-font-l ms-fontColor-black">${escape(this.properties.description)}</p>
+          </div>
+          <p class="ms-font-xl ms-fontColor-black">${escape(this.properties.spList)}</p>
           <div style=${escape(xStyle)}>
-            <a href="${escape(this.properties.siteURL1)}/_layouts/15/people.aspx?MembershipGroupId=`+ myList.id(this.properties.spList) +`" class="${styles.button}" target="_blank" >
+            <a href="${escape(this.properties.siteURL1)}/_layouts/15/people.aspx?MembershipGroupId=${escape(this.properties.listID)}" class="${styles.button}" target="_blank" >
               <span class="ms-fontColor-white ${styles.label}">Manage Group</span>
             </a>
           </div>
-          <br/><br/>
+
           <div id="ResultsTable"></div> 
     <!--</div>-->
     </div>
     `;
 
     this.context.pageContext.site.absoluteUrl;
-    myList.init(this.properties.siteURL1,this.properties.spList);
+    this.myList.init(this.properties.siteURL1,this.properties.spList);
 
   }
 
@@ -68,24 +80,41 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    this.properties.listID = this.myList.id(this.properties.spList);
     return {
       pages: [
         {
           header: {
-            description: ""/*strings.PropertyPaneDescription*/
+            description: "Edit the web part properties"/*strings.PropertyPaneDescription*/
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              groupName: "Site",
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                }),
                 PropertyPaneTextField('siteURL1', {
                   label: 'Site URL'
+                })
+              ]
+            },
+            {
+              groupName: "Title",
+              groupFields: [
+                PropertyPaneCheckbox('showWpTitle', {
+                  text: 'Display Title/Description'
                 }),
+                PropertyPaneTextField('description', {
+                  label: strings.DescriptionFieldLabel
+                })
+              ]
+            },
+            {
+              groupName: "List",
+              groupFields: [
                 PropertyPaneTextField('spList', {
                   label: strings.ListFieldLabel
+                }),
+                PropertyPaneTextField('listID', {
+                  label: 'List ID'
                 }),
                 PropertyPaneCheckbox('showMod1', {
                   text: strings.ListCKBoxLabel

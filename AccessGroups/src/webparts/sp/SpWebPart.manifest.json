@@ -22,7 +22,8 @@
     "properties": {
       "description": "Displays the members of your group.",
       "spList": "Set Me",
-      "siteURL1": "https://salkeiz.sharepoint.com"      
+      "siteURL1": "https://salkeiz.sharepoint.com",
+      "showWpTitle": true
     }
   }]
 }

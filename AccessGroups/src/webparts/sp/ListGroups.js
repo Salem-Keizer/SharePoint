@@ -1,5 +1,5 @@
 var url = "https://salkeiz.sharepoint.com";
-window.listID = "0"
+var listID = "0"
 var listname = "";
 var arrResults = [];
 var table = $('<table></table>').addClass('foo'); // Use with writeTable
@@ -76,18 +76,18 @@ function clearContents(){
 var myList = window.myList || {};
 
 myList.init = function(url,listName){
-
     clearContents();
     if(listName != "Set Me") {
         getListItem(url, listName);
         getGroupID(url, listName);
     } 
         objectWrite(arrResults);
-
 };
 
 myList.id = function(url,listName){
+    if(listName != "Set Me") {
         getGroupID(url, listName);
+    }
         return listID;
 };
 
