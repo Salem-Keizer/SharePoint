@@ -22,6 +22,7 @@ export interface ISpWebPartProps {
   listID: string;
   showMod1: boolean;
   tableIdNum: string;
+  partTitle: string;
 }
 
 declare var $;
@@ -56,7 +57,7 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
 
           <!--<span class="ms-font-xl ms-fontColor-red" id="ErrorResults"></span>-->
           <div  style="${escape(xTitleStyle)}">
-            <span class="ms-font-xl ms-fontColor-black">Access Group</span>
+            <p class="ms-font-xl ms-fontColor-black">${escape(this.properties.partTitle)}</p>
             <p class="ms-font-l ms-fontColor-black">${escape(this.properties.description)}</p>
           </div>
           <p class="ms-font-xl ms-fontColor-black">${escape(this.properties.spList)}</p>
@@ -73,7 +74,7 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
 
     this.context.pageContext.site.absoluteUrl;
     this.myList.init(this.properties.siteURL1,this.properties.spList,this.properties.tableIdNum);
-   
+    //this.properties.listID = this.myList.id(this.properties.spList);
   }
 
   protected get dataVersion(): Version {
@@ -101,18 +102,21 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
               groupName: "Table id",
               groupFields: [
                 PropertyPaneTextField('tableIdNum', {
-                  label: 'Table id (If this is copy set this to a different number than the other(s).)'
+                  label: 'Table id (If this is a copy set this to a different number than the other(s).)'
                 })
               ]
             },
             {
               groupName: "Title",
               groupFields: [
-                PropertyPaneCheckbox('showWpTitle', {
-                  text: 'Display Title/Description'
+                PropertyPaneTextField('partTitle', {
+                  label: 'Title'
                 }),
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneCheckbox('showWpTitle', {
+                  text: 'Display Title/Description'
                 })
               ]
             },
