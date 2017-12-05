@@ -23,7 +23,8 @@
       "description": "Displays the members of your group.",
       "spList": "Set Me",
       "siteURL1": "https://salkeiz.sharepoint.com",
-      "showWpTitle": true
+      "showWpTitle": true,
+      "tableIdNum": "99"
     }
   }]
 }

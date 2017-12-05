@@ -21,6 +21,7 @@ export interface ISpWebPartProps {
   siteURL1: string;
   listID: string;
   showMod1: boolean;
+  tableIdNum: string;
 }
 
 declare var $;
@@ -65,14 +66,14 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
             </a>
           </div>
 
-          <div id="ResultsTable"></div> 
+          <div id="ResultsTable${escape(this.properties.tableIdNum)}"></div> 
     <!--</div>-->
     </div>
     `;
 
     this.context.pageContext.site.absoluteUrl;
-    this.myList.init(this.properties.siteURL1,this.properties.spList);
-
+    this.myList.init(this.properties.siteURL1,this.properties.spList,this.properties.tableIdNum);
+   
   }
 
   protected get dataVersion(): Version {
@@ -93,6 +94,14 @@ export default class SpWebPartWebPart extends BaseClientSideWebPart<ISpWebPartPr
               groupFields: [
                 PropertyPaneTextField('siteURL1', {
                   label: 'Site URL'
+                })
+              ]
+            },
+            {
+              groupName: "Table id",
+              groupFields: [
+                PropertyPaneTextField('tableIdNum', {
+                  label: 'Table id (If this is copy set this to a different number than the other(s).)'
                 })
               ]
             },

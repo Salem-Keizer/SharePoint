@@ -21,6 +21,7 @@ function getListItem(url, listname) {
             for (i = 0; i < data.d.results.length; i++) {
                 arrResults[arrResults.length] = data.d.results[i]; // Add results object to global array
             } // End for
+        //getGroupID(url, listName);
         },
         error: function(data) {
             $('#ErrorResults').append('<tr><td>Error: ' + data.error + '</td></tr>');
@@ -46,7 +47,7 @@ function getGroupID(url, listname){
 } // End of getGroupID
 
 // Write out active list items for testing
-function objectWrite(myObj) {
+function objectWrite(myObj,tableIdNum) {
     if(myObj.length > 0){
         table.append(headerRow);
         for (var i = 0; i < myObj.length; i++) {
@@ -62,7 +63,7 @@ function objectWrite(myObj) {
         var row = $('<tr><td>Select the pencil icon and enter a group name.</td></tr>');
         table.append(row);
     }
-    $('#ResultsTable').append(table);
+    $('#ResultsTable' + tableIdNum).append(table);
 };
 
 function clearContents(){
@@ -75,13 +76,13 @@ function clearContents(){
 
 var myList = window.myList || {};
 
-myList.init = function(url,listName){
+myList.init = function(url,listName,tableIdNum){
     clearContents();
     if(listName != "Set Me") {
         getListItem(url, listName);
         getGroupID(url, listName);
     } 
-        objectWrite(arrResults);
+        objectWrite(arrResults,tableIdNum);
 };
 
 myList.id = function(url,listName){
